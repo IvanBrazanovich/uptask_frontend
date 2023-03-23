@@ -63,6 +63,8 @@ const Login = () => {
     }
   };
 
+  console.log("hola");
+
   return (
     <div className="mx-auto w-3/5 lg:w-2/5 text-slate-600  ">
       <h2 className="text-3xl font-black text-sky-600 capitalize">

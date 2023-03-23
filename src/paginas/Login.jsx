@@ -26,7 +26,7 @@ const Login = () => {
     //Fetch data
     try {
       console.log(`${import.meta.env.VITE_BACKEND_URL}/usuarios/login`);
-      console.log(`${import.meta.env}`);
+      console.log(import.meta.env);
       const resOne = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/usuarios/login`,
         {

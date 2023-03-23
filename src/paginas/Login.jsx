@@ -25,7 +25,7 @@ const Login = () => {
 
     //Fetch data
     try {
-      console.log(`${import.meta.env.VITE_BACKEND_URL}/usuarios/login`);
+      console.log("hola");
       const resOne = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/usuarios/login`,
         {
@@ -36,8 +36,9 @@ const Login = () => {
           },
         }
       );
-      console.log("hola");
+      console.log(resOne);
       const resTwo = await resOne.json();
+      console.log(resTwo);
 
       if (!resOne.ok) {
         throw resTwo.msg;
@@ -57,13 +58,11 @@ const Login = () => {
       navigate("/proyectos");
     } catch (error) {
       setAlert({
-        msg: error,
+        msg: error.message || error,
         error: true,
       });
     }
   };
-
-  console.log("hola");
 
   return (
     <div className="mx-auto w-3/5 lg:w-2/5 text-slate-600  ">

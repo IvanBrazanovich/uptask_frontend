@@ -25,7 +25,8 @@ const Login = () => {
 
     //Fetch data
     try {
-      console.log("hola");
+      console.log(`${import.meta.env.VITE_BACKEND_URL}/usuarios/login`);
+      console.log(`${import.meta.env}`);
       const resOne = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/usuarios/login`,
         {
@@ -57,6 +58,7 @@ const Login = () => {
       //Go to proyectos page
       navigate("/proyectos");
     } catch (error) {
+      console.log(error);
       setAlert({
         msg: error.message || error,
         error: true,

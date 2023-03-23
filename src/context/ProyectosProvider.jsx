@@ -23,12 +23,15 @@ const ProyectosProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const resOne = await fetch("http://localhost:4000/api/proyectos", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const resTwo = await resOne.json();
 
       if (!resOne.ok) {
@@ -81,7 +84,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/proyectos/${proyecto.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos/${proyecto.id}`,
         {
           method: "PUT",
           body: JSON.stringify(proyecto),
@@ -136,14 +139,17 @@ const ProyectosProvider = ({ children }) => {
     }
 
     try {
-      const resOne = await fetch("http://localhost:4000/api/proyectos", {
-        method: "POST",
-        body: JSON.stringify(proyecto),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos`,
+        {
+          method: "POST",
+          body: JSON.stringify(proyecto),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const resTwo = await resOne.json();
 
@@ -178,13 +184,16 @@ const ProyectosProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const resOne = await fetch(`http://localhost:4000/api/proyectos/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const resTwo = await resOne.json();
 
@@ -221,12 +230,15 @@ const ProyectosProvider = ({ children }) => {
     setCargando(true);
     try {
       //Ger proyecto
-      const resOne = await fetch(`http://localhost:4000/api/proyectos/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const resTwo = await resOne.json();
 
@@ -265,7 +277,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/tareas/${datos.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/tareas/${datos.id}`,
         {
           method: "PUT",
           body: JSON.stringify(datos),
@@ -307,14 +319,17 @@ const ProyectosProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const resOne = await fetch("http://localhost:4000/api/tareas/", {
-        method: "POST",
-        body: JSON.stringify(datos),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/tareas/`,
+        {
+          method: "POST",
+          body: JSON.stringify(datos),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const resTwo = await resOne.json();
 
       if (!resOne.ok) {
@@ -350,7 +365,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/tareas/estado/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/tareas/estado/${id}`,
         {
           method: "POST",
           headers: {
@@ -397,13 +412,16 @@ const ProyectosProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const resOne = await fetch(`http://localhost:4000/api/tareas/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/tareas/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const resTwo = await resOne.json();
 
       if (!resOne.ok) {
@@ -437,7 +455,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/proyectos/colaboradores`,
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos/colaboradores`,
         {
           method: "POST",
           body: JSON.stringify({ email }),
@@ -472,7 +490,9 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/proyectos/colaboradores/${proyecto._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos/colaboradores/${
+          proyecto._id
+        }`,
         {
           method: "POST",
           body: JSON.stringify({ id }),
@@ -511,7 +531,9 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/proyectos/eliminar-colaboradores/${proyecto._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/proyectos/eliminar-colaboradores/${
+          proyecto._id
+        }`,
         {
           method: "POST",
           body: JSON.stringify({ id }),

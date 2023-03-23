@@ -17,11 +17,10 @@ const AuthProvider = ({ children }) => {
       setCargando(false);
       return;
     }
-
     const auntenticar = async () => {
       try {
         const resOne = await fetch(
-          "http://localhost:4000/api/usuarios/perfil",
+          `${import.meta.env.VITE_BACKEND_URL}/usuarios/perfil`,
           {
             method: "GET",
             headers: {

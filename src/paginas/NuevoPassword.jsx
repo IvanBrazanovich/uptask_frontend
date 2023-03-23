@@ -12,7 +12,9 @@ const NuevoPassword = () => {
     const comprobarToken = async () => {
       try {
         const resOne = await fetch(
-          `http://localhost:4000/api/usuarios/olvide-password/${token}`
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/usuarios/olvide-password/${token}`
         );
 
         const resTwo = await resOne.json();
@@ -48,7 +50,7 @@ const NuevoPassword = () => {
 
     try {
       const resOne = await fetch(
-        `http://localhost:4000/api/usuarios/olvide-password/${token}`,
+        `${import.meta.env.VITE_BACKEND_URL}/usuarios/olvide-password/${token}`,
         {
           method: "POST",
           body: JSON.stringify({ password }),

@@ -40,13 +40,16 @@ const Registrar = () => {
 
   const registrarPersona = async () => {
     try {
-      const resOne = await fetch("http://localhost:4000/api/usuarios", {
-        method: "POST",
-        body: JSON.stringify({ email, password, nombre }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/usuarios`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password, nombre }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const resTwo = await resOne.json();
       if (!resOne.ok) {

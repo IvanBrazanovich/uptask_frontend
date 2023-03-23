@@ -11,7 +11,7 @@ const ConfirmarCuenta = () => {
     const confirmarCuenta = async () => {
       try {
         const resOne = await fetch(
-          `http://localhost:4000/api/usuarios/confirmar/${id}`
+          `${import.meta.env.VITE_BACKEND_URL}/usuarios/confirmar/${id}`
         );
 
         const resTwo = await resOne.json();

@@ -25,14 +25,18 @@ const Login = () => {
 
     //Fetch data
     try {
-      const resOne = await fetch("http://localhost:4000/api/usuarios/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
+      console.log(`${import.meta.env.VITE_BACKEND_URL}/usuarios/login`);
+      const resOne = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/usuarios/login`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("hola");
       const resTwo = await resOne.json();
 
       if (!resOne.ok) {

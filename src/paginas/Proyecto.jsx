@@ -115,7 +115,7 @@ const Proyecto = () => {
                       />
                     );
                   })
-                : }
+                : "Todavía no hay ningún colaborador"}
             </div>
           </div>
         )}

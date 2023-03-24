@@ -105,7 +105,7 @@ const Proyecto = () => {
               </Link>
             </div>
 
-            <div className="bg-white rounded-md">
+            <div className="bg-white rounded-md p-3">
               {proyecto?.colaboradores?.length > 0
                 ? proyecto?.colaboradores?.map((colaborador) => {
                     return (
@@ -115,7 +115,7 @@ const Proyecto = () => {
                       />
                     );
                   })
-                : "Todavía no hay ningún colaborador"}
+                : }
             </div>
           </div>
         )}

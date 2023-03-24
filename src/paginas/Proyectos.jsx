@@ -21,7 +21,7 @@ const Proyectos = () => {
           })}
         </div>
       ) : (
-        <div>Todavía no hay proyectos</div>
+        <div className="p-3 ">Todavía no hay proyectos</div>
       )}
     </div>
   );

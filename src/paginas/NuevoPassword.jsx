@@ -50,7 +50,9 @@ const NuevoPassword = () => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/usuarios/olvide-password/${token}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/usuarios/olvide-password/${token}`,
         {
           method: "POST",
           body: JSON.stringify({ password }),

@@ -25,10 +25,8 @@ const Login = () => {
 
     //Fetch data
     try {
-      console.log(`${import.meta.env.VITE_BACKEND_URL}/usuarios/login`);
-      console.log(import.meta.env);
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/usuarios/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/usuarios/login`,
         {
           method: "POST",
           body: JSON.stringify({ email, password }),
@@ -37,9 +35,7 @@ const Login = () => {
           },
         }
       );
-      console.log(resOne);
       const resTwo = await resOne.json();
-      console.log(resTwo);
 
       if (!resOne.ok) {
         throw resTwo.msg;
@@ -58,7 +54,6 @@ const Login = () => {
       //Go to proyectos page
       navigate("/proyectos");
     } catch (error) {
-      console.log(error);
       setAlert({
         msg: error.message || error,
         error: true,

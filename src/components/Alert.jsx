@@ -2,7 +2,6 @@ import React from "react";
 
 const Alert = ({ alerta }) => {
   const { error, msg } = alerta;
-  console.log(alerta);
 
   return (
     <div

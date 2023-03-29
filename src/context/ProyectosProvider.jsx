@@ -1,5 +1,8 @@
 import { useEffect, useState, createContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import io from "socket.io-client";
+
+let socket;
 
 const ProyectosContext = createContext();
 
@@ -16,6 +19,11 @@ const ProyectosProvider = ({ children }) => {
   //React Router
   const navigate = useNavigate();
 
+  // Connect to socket
+  useEffect(() => {
+    socket = io(import.meta.env.VITE_BACKEND_URL);
+  }, []);
+
   //Functions
   const getProyectos = async () => {
     const token = localStorage.getItem("token");
@@ -24,7 +32,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -84,7 +92,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos/${proyecto.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos/${proyecto.id}`,
         {
           method: "PUT",
           body: JSON.stringify(proyecto),
@@ -140,7 +148,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos`,
         {
           method: "POST",
           body: JSON.stringify(proyecto),
@@ -185,7 +193,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -231,7 +239,7 @@ const ProyectosProvider = ({ children }) => {
     try {
       //Ger proyecto
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -277,7 +285,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/tareas/${datos.id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/tareas/${datos.id}`,
         {
           method: "PUT",
           body: JSON.stringify(datos),
@@ -298,10 +306,7 @@ const ProyectosProvider = ({ children }) => {
         error: false,
       });
 
-      const tareasActualizadas = { ...proyecto }.tareas.map((tarea) =>
-        tarea._id === resTwo._id ? resTwo : tarea
-      );
-      setProyecto({ ...proyecto, tareas: tareasActualizadas });
+      socket.emit("editar tarea", resTwo);
     } catch (err) {
       const message = err.message ? "Hubo un error" : err;
       mostrarAlerta({
@@ -320,7 +325,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/tareas/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/tareas/`,
         {
           method: "POST",
           body: JSON.stringify(datos),
@@ -341,12 +346,7 @@ const ProyectosProvider = ({ children }) => {
         error: false,
       });
 
-      const proyectosActualizado = {
-        ...proyecto,
-        tareas: [...proyecto.tareas, resTwo.tareaAlmacenada],
-      };
-
-      setProyecto(proyectosActualizado);
+      socket.emit("agregar tarea", resTwo);
     } catch (err) {
       const message = err.message ? "Hubo un error" : err;
       mostrarAlerta({
@@ -365,7 +365,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/tareas/estado/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/tareas/estado/${id}`,
         {
           method: "POST",
           headers: {
@@ -381,11 +381,7 @@ const ProyectosProvider = ({ children }) => {
         throw resTwo.msg;
       }
 
-      const tareasActualizadas = { ...proyecto }.tareas.map((tarea) =>
-        tarea._id === resTwo._id ? resTwo : tarea
-      );
-
-      setProyecto({ ...proyecto, tareas: tareasActualizadas });
+      socket.emit("cambiar estado", resTwo);
     } catch (err) {
       const message = err.message ? "Hubo un error" : err;
       mostrarAlerta({
@@ -413,7 +409,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/tareas/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/tareas/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -433,11 +429,7 @@ const ProyectosProvider = ({ children }) => {
         error: false,
       });
 
-      const tareasActualizadas = { ...proyecto }.tareas.filter(
-        (item) => item._id !== id
-      );
-
-      setProyecto({ ...proyecto, tareas: tareasActualizadas });
+      socket.emit("eliminar tarea", resTwo);
     } catch (err) {
       const message = err.message ? "Hubo un error" : err;
       mostrarAlerta({
@@ -455,7 +447,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos/colaboradores`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos/colaboradores`,
         {
           method: "POST",
           body: JSON.stringify({ email }),
@@ -474,7 +466,6 @@ const ProyectosProvider = ({ children }) => {
 
       setColaborador(resTwo);
     } catch (err) {
-      console.log({ err });
       const message = err.message ? "Hubo un error" : err;
       mostrarAlerta({
         msg: message,
@@ -490,7 +481,7 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos/colaboradores/${
+        `${import.meta.env.VITE_BACKEND_URL}/api/proyectos/colaboradores/${
           proyecto._id
         }`,
         {
@@ -531,9 +522,9 @@ const ProyectosProvider = ({ children }) => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/proyectos/eliminar-colaboradores/${
-          proyecto._id
-        }`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/proyectos/eliminar-colaboradores/${proyecto._id}`,
         {
           method: "POST",
           body: JSON.stringify({ id }),
@@ -568,6 +559,40 @@ const ProyectosProvider = ({ children }) => {
     }
   };
 
+  // Cambiar estados
+
+  const addTareaToEstado = (tarea) => {
+    const proyectosActualizado = {
+      ...proyecto,
+      tareas: [...proyecto.tareas, tarea],
+    };
+
+    setProyecto(proyectosActualizado);
+  };
+
+  const eliminarTareaOfEstado = (tarea) => {
+    const tareasActualizadas = { ...proyecto }.tareas.filter(
+      (item) => item._id !== tarea._id
+    );
+
+    setProyecto({ ...proyecto, tareas: tareasActualizadas });
+  };
+
+  const editarTareaEnEstado = (tareaEditada) => {
+    const tareasActualizadas = { ...proyecto }.tareas.map((tarea) =>
+      tarea._id === tareaEditada._id ? tareaEditada : tarea
+    );
+    setProyecto({ ...proyecto, tareas: tareasActualizadas });
+  };
+
+  const cambiarEstadoTareaEnState = (tareaEditada) => {
+    const tareasActualizadas = { ...proyecto }.tareas.map((tarea) =>
+      tarea._id === tareaEditada._id ? tareaEditada : tarea
+    );
+
+    setProyecto({ ...proyecto, tareas: tareasActualizadas });
+  };
+
   //Cerrar sesión
   const cerrarSesion = () => {
     setProyecto({});
@@ -579,19 +604,23 @@ const ProyectosProvider = ({ children }) => {
     <ProyectosContext.Provider
       value={{
         cerrarSesion,
+        cambiarEstadoTareaEnState,
         eliminarColaborador,
         buscarColaborador,
         handleDeleteTarea,
         tarea,
         cargando,
         setColaborador,
+        editarTareaEnEstado,
         agregarColaborador,
         alerta,
         agregarProyecto,
+        eliminarTareaOfEstado,
         mostrarAlerta,
         proyectos,
         setProyectos,
         getProyectos,
+        addTareaToEstado,
         getProyecto,
         deleteProyecto,
         proyecto,

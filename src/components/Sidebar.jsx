@@ -7,7 +7,7 @@ const Sidebar = () => {
 
   return (
     <aside className="w-56 lg:w-64 px-3 py-5">
-      <h2 className="font-bold">Hola: {auth?.nombre}</h2>
+      <h2 className="font-bold text-2xl">Hola: {auth?.nombre}</h2>
 
       <Link
         to="crear-proyecto"

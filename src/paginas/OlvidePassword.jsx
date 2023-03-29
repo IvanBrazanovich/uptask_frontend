@@ -18,7 +18,7 @@ const OlvidePassword = () => {
 
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/usuarios/olvide-password`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/usuarios/olvide-password`,
         {
           method: "POST",
           body: JSON.stringify({ email }),

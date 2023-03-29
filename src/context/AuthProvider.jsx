@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
     const auntenticar = async () => {
       try {
         const resOne = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/usuarios/perfil`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/usuarios/perfil`,
           {
             method: "GET",
             headers: {

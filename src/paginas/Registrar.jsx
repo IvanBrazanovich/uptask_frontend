@@ -41,7 +41,7 @@ const Registrar = () => {
   const registrarPersona = async () => {
     try {
       const resOne = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/usuarios`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/usuarios`,
         {
           method: "POST",
           body: JSON.stringify({ email, password, nombre }),

@@ -7,6 +7,9 @@ import ModalFormularioTarea from "../components/ModalFormularioTarea";
 import Tarea from "../components/Tarea";
 import ProyectosContext from "../context/ProyectosProvider";
 import useAdmin from "../hooks/useAdmin";
+import io from "socket.io-client";
+
+let socket;
 
 const Proyecto = () => {
   //Context
@@ -16,6 +19,10 @@ const Proyecto = () => {
     proyecto,
     handleModalFormularioTarea,
     alerta,
+    addTareaToEstado,
+    editarTareaEnEstado,
+    cambiarEstadoTareaEnState,
+    eliminarTareaOfEstado,
   } = useContext(ProyectosContext);
 
   //React router
@@ -27,16 +34,50 @@ const Proyecto = () => {
 
   const admin = useAdmin();
 
+  // Conect to socket io
+  useEffect(() => {
+    // Crear el socket
+    socket = io(import.meta.env.VITE_BACKEND_URL);
+
+    // Connect to a room channel
+    socket.emit("abrir proyecto", params.id);
+  }, []);
+
+  useEffect(() => {
+    // Listen to emits
+    socket.on("tarea agregada", (tarea) => {
+      if (proyecto._id === tarea.proyecto) {
+        addTareaToEstado(tarea);
+      }
+    });
+    socket.on("estado cambiado", (tarea) => {
+      if (proyecto._id === tarea.proyecto) {
+        cambiarEstadoTareaEnState(tarea);
+      }
+    });
+
+    socket.on("tarea editada", (tarea) => {
+      if (proyecto._id === tarea.proyecto._id) {
+        editarTareaEnEstado(tarea);
+      }
+    });
+
+    socket.on("tarea eliminada", (tarea) => {
+      if (proyecto._id === tarea.proyecto._id) {
+        eliminarTareaOfEstado(tarea);
+      }
+    });
+  });
+
   //Destructuring
   const { nombre, _id } = proyecto;
 
   if (cargando) return "Cargando...";
 
-  if (alerta.msg) return <Alert alerta={alerta} />;
-
   return (
     <>
       <div className="p-5">
+        {alerta.msg && <Alert alerta={alerta} />}
         <div className="flex justify-between">
           <h2 className="text-2xl font-bold">{nombre}</h2>
 
